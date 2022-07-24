@@ -1,0 +1,82 @@
+#
+# Default settings for the simulation
+#
+
+## Scenario settings
+Scenario.name = visualizer
+Scenario.simulateConnections = false
+Scenario.updateInterval = 0.05
+# 43200s == 12h
+Scenario.endTime = 43200
+
+wifiInterface.type = SimpleBroadcastInterface
+wifiInterface.transmitSpeed = 6570k
+wifiInterface.transmitRange = 100
+wifiInterface.scanInterval = 2
+
+Scenario.nrofHostGroups = 1
+
+# Common settings for all groups
+Group.movementModel = ExternalMovement
+Group.router = EpidemicRouter
+Group.bufferSize = 50M
+Group.nrofInterfaces = 1
+Group.interface1 = wifiInterface
+Group.msgTtl = 3600
+
+Group.nrofHosts = 100
+
+# group1 (nodes moving) specific settings
+Group1.groupID = n
+#Group1.nrofHosts = 100
+
+## Message creation parameters
+# How many event generators
+Events.nrof = 0
+
+#Events1.class = MessageEventGenerator
+#Events1.interval = 20
+#Events1.size = 80,120
+#Events1.hosts = 0,99
+#Events1.tohosts = 16,17
+#Events1.prefix = M
+
+
+
+## Movement model settings
+# seed for movement models' pseudo random number generator (default = 0)
+#MovementModel.rngSeed = 1
+# World's size for Movement Models without implicit size (width, height; meters)
+MovementModel.worldSize = 8000, 8000
+# How long time to move hosts in the world before real simulation
+#MovementModel.warmup = 1000
+
+#ExternalMovement.file = smooth.one
+ExternalMovement.file = move.one
+
+
+## Reports - all report names have to be valid report classes
+
+# how many reports to load
+Report.nrofReports = 0
+# length of the warm up period (simulated seconds)
+Report.warmup = 0
+# default directory of reports (can be overridden per Report with output setting)
+Report.reportDir = reports/
+# Report classes to load
+Report.report1 = MessageStatsReport
+Report.report2 = MessageDelayReport
+Report.report3 = MessageDeliveryReport
+
+## Optimization settings -- these affect the speed of the simulation
+## see World class for details.
+Optimization.cellSizeMult = 1
+Optimization.randomizeUpdateOrder = false
+
+
+## GUI settings
+
+# how many events to show in the log panel (default = 30)
+GUI.EventLogPanel.nrofEvents = 100
+# Regular Expression log filter (see Pattern-class from the Java API for RE-matching details)
+#GUI.EventLogPanel.REfilter = .*p[1-9]<->p[1-9]$
