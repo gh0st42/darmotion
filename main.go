@@ -5,7 +5,6 @@ import (
 	"log"
 	"os"
 	"os/exec"
-	"strconv"
 	"strings"
 
 	_ "embed"
@@ -15,139 +14,6 @@ import (
 
 //go:embed bonnmotion_settings.txt
 var theoneConfig string
-
-func convert(filename string) {
-	switch selected {
-	case FORMAT_INTERVALFORMAT:
-		convertToIF(filename)
-	case FORMAT_ONE:
-		convertToOne(filename)
-	case FORMAT_NSFILE:
-		convertToNSFile(filename)
-	default:
-		break
-	}
-}
-
-func convertToOne(filename string) {
-	cmd, err := exec.Command(BONNMOTION, "TheONEFile", "-f", filename).Output()
-	fmt.Println(string(cmd))
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-}
-
-func convertToNSFile(filename string) {
-	cmd, err := exec.Command(BONNMOTION, "NSFile", "-f", filename).Output()
-	fmt.Println(string(cmd))
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-}
-func convertToIF(filename string) {
-	cmd, err := exec.Command(BONNMOTION, "IntervalFormat", "-f", filename).Output()
-	fmt.Println(string(cmd))
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-}
-
-func onGenerateRandomWaypoint() {
-	fmt.Println("Generating...")
-	// -f smooth SMOOTH -d 43200 -n 100 -x 8000 -y 8000 -g 10 -h 40 -k 1.45 -l 1 -m 14000 -o 1.5 -p 10 -q 360
-	d := strconv.Itoa(int(duration))
-	n := strconv.Itoa(int(num_nodes))
-	w := strconv.Itoa(int(width))
-	h := strconv.Itoa(int(height))
-	s := strconv.Itoa(int(skip))
-
-	var fout string
-	if filename == "" {
-		fout = "move"
-	} else {
-		fout = filename
-	}
-	if batch && reps > 0 && filename != "" {
-		fmt.Println("Batch mode")
-		for i := 0; i < int(reps); i++ {
-			fout_i := fmt.Sprintf("%v-%v", fout, i+1)
-			cmd, err := exec.Command(BONNMOTION, "-f", fout_i, "RandomWaypoint", "-i", s, "-d", d, "-n", n, "-x", w, "-y", h).Output()
-			fmt.Println(string(cmd))
-			if err != nil {
-				fmt.Println(err)
-				return
-			}
-			convert(fout_i)
-		}
-	} else {
-		cmd, err := exec.Command(BONNMOTION, "-f", fout, "RandomWaypoint", "-i", s, "-d", d, "-n", n, "-x", w, "-y", h).Output()
-		fmt.Println(string(cmd))
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		convert(fout)
-	}
-}
-
-type SMOOTH struct {
-	comm_range int32
-	clusters   int32
-	alpha      float32
-	beta       float32
-	f_min      int32
-	f_max      int32
-	p_min      int32
-	p_max      int32
-}
-
-func onGenerateSMOOTH() {
-	fmt.Println("Generating...")
-	d := strconv.Itoa(int(duration))
-	s := strconv.Itoa(int(skip))
-	n := strconv.Itoa(int(num_nodes))
-	w := strconv.Itoa(int(width))
-	h := strconv.Itoa(int(height))
-	comm_range := strconv.Itoa(int(smooth.comm_range))
-	clusters := strconv.Itoa(int(smooth.clusters))
-	alpha := strconv.FormatFloat(float64(smooth.alpha), 'f', -1, 32)
-	beta := strconv.FormatFloat(float64(smooth.beta), 'f', -1, 32)
-	f_min := strconv.Itoa(int(smooth.f_min))
-	f_max := strconv.Itoa(int(smooth.f_max))
-	p_min := strconv.Itoa(int(smooth.p_min))
-	p_max := strconv.Itoa(int(smooth.p_max))
-
-	var fout string
-	if filename == "" {
-		fout = "move"
-	} else {
-		fout = filename
-	}
-	if batch && reps > 0 && filename != "" {
-		fmt.Println("Batch mode")
-		for i := 0; i < int(reps); i++ {
-			fout_i := fmt.Sprintf("%v-%v", fout, i+1)
-			cmd, err := exec.Command(BONNMOTION, "-f", fout_i, "SMOOTH", "-i", s, "-d", d, "-n", n, "-x", w, "-y", h, "-g", comm_range, "-h", clusters, "-k", alpha, "-l", f_min, "-m", f_max, "-o", beta, "-p", p_min, "-q", p_max).Output()
-			fmt.Println(string(cmd))
-			if err != nil {
-				fmt.Println(err)
-				return
-			}
-			convert(fout_i)
-		}
-	} else {
-		cmd, err := exec.Command(BONNMOTION, "-f", fout, "SMOOTH", "-i", s, "-d", d, "-n", n, "-x", w, "-y", h, "-g", comm_range, "-h", clusters, "-k", alpha, "-l", f_min, "-m", f_max, "-o", beta, "-p", p_min, "-q", p_max).Output()
-		fmt.Println(string(cmd))
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		convert(fout)
-	}
-}
 
 func onRun() {
 	fmt.Println("Run")
@@ -182,45 +48,10 @@ func onRun() {
 	}
 }
 
-const (
-	BONNMOTION = "bonnmotion"
-)
-
-const (
-	FORMAT_NSFILE = iota
-	FORMAT_INTERVALFORMAT
-	FORMAT_ONE
-	FORMAT_BONNMOTION
-)
-
-var (
-	multiline string
-	filename  string
-	selected  int32  = FORMAT_ONE
-	formats          = []string{"NSFile", "IntervalFormat", "ONE", "Bonnmotion"}
-	batch            = false
-	reps      int32  = 1
-	num_nodes int32  = 100
-	skip      int32  = 0
-	width     int32  = 8000
-	height    int32  = 8000
-	duration  int32  = 43200
-	smooth    SMOOTH = SMOOTH{
-		comm_range: 100,
-		clusters:   40,
-		alpha:      1.45,
-		beta:       1.5,
-		f_min:      1,
-		f_max:      14000,
-		p_min:      10,
-		p_max:      3600,
-	}
-)
-
 func loop() {
 
 	g.SingleWindow().Layout(
-		g.Label("TuDarMotion"),
+		g.Label("DarMotion"),
 		g.InputText(&filename).Label("filename"),
 		g.Combo("format", formats[selected], formats, &selected),
 		g.Spacing(),
@@ -271,6 +102,6 @@ func loop() {
 }
 
 func main() {
-	wnd := g.NewMasterWindow("TuDarMotion", 800, 600, 0)
+	wnd := g.NewMasterWindow("DarMotion", 800, 600, 0)
 	wnd.Run(loop)
 }
