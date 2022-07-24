@@ -1,3 +1,3 @@
 #!/bin/sh
 
-rm *.gz *.params *.one *.ns_* *.if
+rm *.gz *.params *.one *.ns_* *.if *.results

@@ -1,0 +1,8 @@
+darmotion
+
+*.gz 
+*.params 
+*.one 
+*.ns_* 
+*.if
+*.results
