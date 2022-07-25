@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"os/exec"
 	"strconv"
 )
 
@@ -19,11 +18,6 @@ type SMOOTH struct {
 
 func onGenerateSMOOTH() {
 	fmt.Println("Generating...")
-	d := strconv.Itoa(int(duration))
-	s := strconv.Itoa(int(skip))
-	n := strconv.Itoa(int(num_nodes))
-	w := strconv.Itoa(int(width))
-	h := strconv.Itoa(int(height))
 	comm_range := strconv.Itoa(int(smooth.comm_range))
 	clusters := strconv.Itoa(int(smooth.clusters))
 	alpha := strconv.FormatFloat(float64(smooth.alpha), 'f', -1, 32)
@@ -43,21 +37,15 @@ func onGenerateSMOOTH() {
 		fmt.Println("Batch mode")
 		for i := 0; i < int(reps); i++ {
 			fout_i := fmt.Sprintf("%v-%v", fout, i+1)
-			cmd, err := exec.Command(BONNMOTION, "-f", fout_i, "SMOOTH", "-i", s, "-d", d, "-n", n, "-x", w, "-y", h, "-g", comm_range, "-h", clusters, "-k", alpha, "-l", f_min, "-m", f_max, "-o", beta, "-p", p_min, "-q", p_max).Output()
-			fmt.Println(string(cmd))
-			if err != nil {
-				fmt.Println(err)
-				return
-			}
+			base_cmd := baseCommand("SMOOTH", fout_i)
+			run_cmd_args := fmt.Sprintf("%v-g %v -h %v -k %v -l %v -m %v -o %v -p %v -q %v", base_cmd, comm_range, clusters, alpha, f_min, f_max, beta, p_min, p_max)
+			execCommand(run_cmd_args)
 			convert(fout_i)
 		}
 	} else {
-		cmd, err := exec.Command(BONNMOTION, "-f", fout, "SMOOTH", "-i", s, "-d", d, "-n", n, "-x", w, "-y", h, "-g", comm_range, "-h", clusters, "-k", alpha, "-l", f_min, "-m", f_max, "-o", beta, "-p", p_min, "-q", p_max).Output()
-		fmt.Println(string(cmd))
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
+		base_cmd := baseCommand("SMOOTH", fout)
+		run_cmd_args := fmt.Sprintf("%v -g %v -h %v -k %v -l %v -m %v -o %v -p %v -q %v", base_cmd, comm_range, clusters, alpha, f_min, f_max, beta, p_min, p_max)
+		execCommand(run_cmd_args)
 		convert(fout)
 	}
 }

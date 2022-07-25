@@ -74,20 +74,25 @@ func loop() {
 		g.TabBar().TabItems(
 			g.TabItem("Random Waypoint").Layout(
 				g.Spacing(),
-				g.Label("Random Waypoint Model"),
+				//g.Label("Random Waypoint Model"),
 				g.Row(
 					g.Button("Generate").OnClick(onGenerateRandomWaypoint),
 					g.Button("Run").OnClick(onRun),
 				),
-				g.InputTextMultiline(&multiline).Size(g.Auto, g.Auto),
+				g.Spacing(),
+				g.InputInt(&rwp.min_speed).Size(100).Label("min speed"),
+				g.InputInt(&rwp.max_speed).Size(100).Label("max speed"),
+				g.InputInt(&rwp.max_pause).Size(100).Label("max pause"),
+				//g.InputTextMultiline(&multiline).Size(g.Auto, g.Auto),
 			),
 			g.TabItem("SMOOTH").Layout(
 				g.Spacing(),
-				g.Label("SMOOTH Mobility Model"),
+				//g.Label("SMOOTH Mobility Model"),
 				g.Row(
 					g.Button("Generate").OnClick(onGenerateSMOOTH),
 					g.Button("Run").OnClick(onRun),
 				),
+				g.Spacing(),
 				g.InputInt(&smooth.comm_range).Size(100).Label("range"),
 				g.InputInt(&smooth.clusters).Size(100).Label("clusters"),
 				g.InputFloat(&smooth.alpha).Size(100).Label("alpha"),
@@ -96,6 +101,20 @@ func loop() {
 				g.InputFloat(&smooth.beta).Size(100).Label("beta"),
 				g.InputInt(&smooth.p_min).Size(100).Label("p_min"),
 				g.InputInt(&smooth.p_max).Size(100).Label("p_max"),
+			),
+			g.TabItem("SWIM").Layout(
+				g.Spacing(),
+				//g.Label("SWIM Mobility Model"),
+				g.Row(
+					g.Button("Generate").OnClick(onGenerateSWIM),
+					g.Button("Run").OnClick(onRun),
+				),
+				g.Spacing(),
+				g.InputFloat(&swim.radius).Size(100).Label("radius"),
+				g.InputFloat(&swim.cell_distance).Size(100).Label("cell distance weight"),
+				g.InputFloat(&swim.node_speed).Size(100).Label("node speed multiplier"),
+				g.InputFloat(&swim.wait_time_exp).Size(100).Label("waiting time exponent"),
+				g.InputFloat(&swim.wait_time_upper_bound).Size(100).Label("waiing time upper bound"),
 			),
 		),
 	)

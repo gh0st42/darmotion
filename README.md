@@ -12,6 +12,7 @@ Supported movement models at the moment:
 
 - Random Waypoint
 - SMOOTH
+- SWIM
 
 ## Installation
 
