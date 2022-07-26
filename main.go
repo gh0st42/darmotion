@@ -116,6 +116,23 @@ func loop() {
 				g.InputFloat(&swim.wait_time_exp).Size(100).Label("waiting time exponent"),
 				g.InputFloat(&swim.wait_time_upper_bound).Size(100).Label("waiing time upper bound"),
 			),
+			g.TabItem("SLAW").Layout(
+				g.Spacing(),
+				g.Row(
+					g.Button("Generate").OnClick(onGenerateSLAW),
+					g.Button("Run").OnClick(onRun),
+				),
+				g.Spacing(),
+				g.InputInt(&slaw.num_waypoints).Size(100).Label("number of waypoints"),
+				g.InputInt(&slaw.min_pause).Size(100).Label("minimum pause time"),
+				g.InputInt(&slaw.max_pause).Size(100).Label("maximum pause time"),
+				g.InputFloat(&slaw.levy_exp).Size(100).Label("levy exponent for pause time"),
+				g.InputFloat(&slaw.hurst).Size(100).Label("hurst parameter for self-similarity of waypoints"),
+				g.InputFloat(&slaw.dist_weight).Size(100).Label("distance weight"),
+				g.InputInt(&slaw.clustering_range).Size(100).Label("clustering range (meter)"),
+				g.InputFloat(&slaw.cluster_ratio).Size(100).Label("cluster ratio"),
+				g.InputFloat(&slaw.waypoint_ratio).Size(100).Label("waypoint ratio"),
+			),
 		),
 	)
 }

@@ -52,6 +52,18 @@ var (
 		wait_time_exp:         1.55,
 		wait_time_upper_bound: 100,
 	}
+
+	slaw SLAW = SLAW{
+		num_waypoints:    500,
+		min_pause:        10,
+		max_pause:        50,
+		levy_exp:         1.0,
+		hurst:            0.75,
+		dist_weight:      3.0,
+		clustering_range: 50,
+		cluster_ratio:    3.0,
+		waypoint_ratio:   5.0,
+	}
 )
 
 func baseCommand(model string, fout string) string {

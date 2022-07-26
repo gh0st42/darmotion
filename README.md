@@ -6,13 +6,14 @@ Features:
 
 - Example values for all parameter values
 - Batch creation of mobility traces
-- Movement model preview using [the-ONE](https://github.com/akeranen/the-one)
+- Movement model preview using [the ONE](https://github.com/akeranen/the-one)
 
 Supported movement models at the moment:
 
 - Random Waypoint
 - SMOOTH
 - SWIM
+- SLAW
 
 ## Installation
 
