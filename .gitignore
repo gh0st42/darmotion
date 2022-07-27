@@ -8,3 +8,5 @@ darmotion
 *.results
 *.txt
 *.csv
+one_settings.txt
+.DS_Store

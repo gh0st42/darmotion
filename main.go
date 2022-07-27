@@ -114,7 +114,7 @@ func loop() {
 				g.InputFloat(&swim.cell_distance).Size(100).Label("cell distance weight"),
 				g.InputFloat(&swim.node_speed).Size(100).Label("node speed multiplier"),
 				g.InputFloat(&swim.wait_time_exp).Size(100).Label("waiting time exponent"),
-				g.InputFloat(&swim.wait_time_upper_bound).Size(100).Label("waiing time upper bound"),
+				g.InputFloat(&swim.wait_time_upper_bound).Size(100).Label("waitng time upper bound"),
 			),
 			g.TabItem("SLAW").Layout(
 				g.Spacing(),

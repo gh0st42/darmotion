@@ -38,7 +38,7 @@ func onGenerateSMOOTH() {
 		for i := 0; i < int(reps); i++ {
 			fout_i := fmt.Sprintf("%v-%v", fout, i+1)
 			base_cmd := baseCommand("SMOOTH", fout_i)
-			run_cmd_args := fmt.Sprintf("%v-g %v -h %v -k %v -l %v -m %v -o %v -p %v -q %v", base_cmd, comm_range, clusters, alpha, f_min, f_max, beta, p_min, p_max)
+			run_cmd_args := fmt.Sprintf("%v -g %v -h %v -k %v -l %v -m %v -o %v -p %v -q %v", base_cmd, comm_range, clusters, alpha, f_min, f_max, beta, p_min, p_max)
 			execCommand(run_cmd_args)
 			convert(fout_i)
 		}

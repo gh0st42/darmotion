@@ -19,7 +19,6 @@ const (
 )
 
 var (
-	multiline string
 	filename  string
 	selected  int32  = FORMAT_ONE
 	formats          = []string{"NSFile", "IntervalFormat", "ONE", "Bonnmotion"}
